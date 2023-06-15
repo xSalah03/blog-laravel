@@ -1,7 +1,10 @@
 <?php
 
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\PostController;
 use App\Http\Controllers\ProfileController;
+use App\Models\Category;
+use App\Models\Post;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -20,7 +23,10 @@ Route::get('/', function () {
 });
 
 Route::get('/dashboard', function () {
-    return view('dashboard');
+    $catCount = Category::count();
+    $posCount = Post::count();
+    // $catCount = Category::count();
+    return view('dashboard', compact('catCount', 'posCount'));
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::middleware('auth')->group(function () {
@@ -30,5 +36,7 @@ Route::middleware('auth')->group(function () {
 });
 
 Route::resource('dashboard/category', CategoryController::class);
+Route::resource('dashboard/post', PostController::class);
+Route::get('/posts', [PostController::class, 'userIndex'])->name('post.user.index');
 
 require __DIR__ . '/auth.php';

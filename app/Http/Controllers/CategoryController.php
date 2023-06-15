@@ -3,18 +3,19 @@
 namespace App\Http\Controllers;
 
 use App\Models\Category;
+use App\Models\Post;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
 class CategoryController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
+    
     public function index()
     {
         $categories = Category::all();
-        return view('pages.categories.index', compact('categories'));
+        $catCount = Category::count();
+        $posCount = Post::count();
+        return view('pages.admin.categories.index', compact('categories', 'catCount', 'posCount'));
     }
 
     /**
@@ -22,7 +23,9 @@ class CategoryController extends Controller
      */
     public function create()
     {
-        return view('pages.categories.create');
+        $catCount = Category::count();
+        $posCount = Post::count();
+        return view('pages.admin.categories.create', compact('catCount', 'posCount'));
     }
 
     /**
@@ -54,8 +57,10 @@ class CategoryController extends Controller
 
     public function edit(string $id)
     {
+        $catCount = Category::count();
+        $posCount = Post::count();
         $category = Category::findOrFail($id);
-        return view('pages.categories.edit', compact('category'));
+        return view('pages.admin.categories.edit', compact('category', 'catCount', 'posCount'));
     }
 
     public function update(Request $request, string $id)
