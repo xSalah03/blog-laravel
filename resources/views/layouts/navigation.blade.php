@@ -21,11 +21,6 @@
                         {{ __('Posts') }}
                     </x-nav-link>
                 </div>
-                {{-- <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
-                    <x-nav-link :href="route('post.user.index')" :active="request()->routeIs('post')">
-                        {{ __('Posts') }}
-                    </x-nav-link>
-                </div> --}}
             </div>
 
             <!-- Settings Dropdown -->
@@ -64,6 +59,8 @@
                         </form>
                     </x-slot>
                 </x-dropdown>
+                <img class="w-10 h-10 rounded-full" src={{ asset(Auth::user()->avatar) }} alt="">
+
             </div>
 
             <!-- Hamburger -->

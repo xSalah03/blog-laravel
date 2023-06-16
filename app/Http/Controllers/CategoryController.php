@@ -3,19 +3,21 @@
 namespace App\Http\Controllers;
 
 use App\Models\Category;
+use App\Models\Comment;
 use App\Models\Post;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
 class CategoryController extends Controller
 {
-    
+
     public function index()
     {
         $categories = Category::all();
         $catCount = Category::count();
         $posCount = Post::count();
-        return view('pages.admin.categories.index', compact('categories', 'catCount', 'posCount'));
+        $comCount = Comment::count();
+        return view('pages.admin.categories.index', compact('categories', 'catCount', 'posCount', 'comCount'));
     }
 
     /**
@@ -25,7 +27,8 @@ class CategoryController extends Controller
     {
         $catCount = Category::count();
         $posCount = Post::count();
-        return view('pages.admin.categories.create', compact('catCount', 'posCount'));
+        $comCount = Comment::count();
+        return view('pages.admin.categories.create', compact('catCount', 'posCount', 'comCount'));
     }
 
     /**
@@ -59,8 +62,9 @@ class CategoryController extends Controller
     {
         $catCount = Category::count();
         $posCount = Post::count();
+        $comCount = Comment::count();
         $category = Category::findOrFail($id);
-        return view('pages.admin.categories.edit', compact('category', 'catCount', 'posCount'));
+        return view('pages.admin.categories.edit', compact('category', 'catCount', 'posCount', 'comCount'));
     }
 
     public function update(Request $request, string $id)

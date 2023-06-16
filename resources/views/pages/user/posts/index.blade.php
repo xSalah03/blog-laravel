@@ -3,7 +3,7 @@
         <div class="p-5">
             <div
                 class="mx-auto max-w-sm bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
-                <a href="#">
+                <a href="{{ route('post.user.show', $post->id) }}">
                     <img class="rounded-t-lg" src={{ asset($post->cover) }} alt="" />
                 </a>
                 <div class="p-5">
@@ -21,11 +21,14 @@
                             </a>
                         </div>
                         <div>
-                            <h4 class="underline-offset-1 text-white">Comment(s): <span></span></h5>
+                            <p class="text-white">
+                                Comment(s):
+                                <span>{{ $post->comments_count }}</span>
+                            </p>
                         </div>
                         <div>
                             <a href="">
-                                <img class="w-16 h-16 rounded-full shadow-lg" src={{ asset($post->user->avatar) }}
+                                <img class="w-10 h-10 rounded-full shadow-lg" src={{ asset($post->user->avatar) }}
                                     alt="Bonnie image" />
                             </a>
                         </div>

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Category;
 use App\Models\Post;
+use App\Models\Comment;
 use App\Models\User;
 use DragonCode\Contracts\Cashier\Auth\Auth;
 use Illuminate\Http\Request;
@@ -16,7 +17,8 @@ class PostController extends Controller
         $posts = Post::all();
         $catCount = Category::count();
         $posCount = Post::count();
-        return view('pages.admin.posts.index', compact('posts', 'catCount', 'posCount'));
+        $comCount = Comment::count();
+        return view('pages.admin.posts.index', compact('posts', 'catCount', 'posCount', 'comCount'));
     }
 
     public function create()
@@ -24,7 +26,8 @@ class PostController extends Controller
         $categories = Category::all();
         $catCount = Category::count();
         $posCount = Post::count();
-        return view('pages.admin.posts.create', compact('categories', 'catCount', 'posCount'));
+        $comCount = Comment::count();
+        return view('pages.admin.posts.create', compact('categories', 'catCount', 'posCount', 'comCount'));
     }
 
     public function store(Request $request)
@@ -50,6 +53,8 @@ class PostController extends Controller
 
     public function show(string $id)
     {
+        $post = Post::with('comments')->withCount('comments')->findOrFail($id);
+        return view('pages.user.posts.show', compact('post'));
     }
 
     public function edit(string $id)
@@ -58,7 +63,8 @@ class PostController extends Controller
         $post = Post::findOrFail($id);
         $catCount = Category::count();
         $posCount = Post::count();
-        return view('pages.admin.posts.edit', compact('post', 'catCount', 'posCount', 'categories'));
+        $comCount = Comment::count();
+        return view('pages.admin.posts.edit', compact('post', 'catCount', 'posCount', 'comCount', 'categories'));
     }
 
     public function update(Request $request, string $id)
@@ -98,9 +104,15 @@ class PostController extends Controller
         return redirect()->route('post.index');
     }
 
-    public function userIndex()
+    public function userIndex(Request $request)
     {
-        $posts = Post::all();
+        $posts = Post::withCount('comments')->get();
         return view('pages.user.posts.index', compact('posts'));
+    }
+
+    public function userShow(string $id)
+    {
+        $post = Post::with('comments')->withCount('comments')->findOrFail($id);
+        return view('pages.user.posts.show', compact('post'));
     }
 }
