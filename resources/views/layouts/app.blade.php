@@ -37,6 +37,20 @@
         </main>
     </div>
     <script src="//code.jquery.com/jquery.js"></script>
+    <script>
+        // Wait for the DOM to load
+        document.addEventListener('DOMContentLoaded', function() {
+            // Get the dropdown button and dropdown menu
+            var dropdownButton = document.getElementById('dropdownButton');
+            var dropdownMenu = document.getElementById('dropdown');
+
+            // Add an event listener to the dropdown button
+            dropdownButton.addEventListener('click', function() {
+                // Toggle the visibility of the dropdown menu
+                dropdownMenu.classList.toggle('hidden');
+            });
+        });
+    </script>
     @include('flashy::message')
 </body>
 

@@ -53,8 +53,12 @@ class PostController extends Controller
 
     public function show(string $id)
     {
+        $catCount = Category::count();
+        $posCount = Post::count();
+        $comCount = Comment::count();
+        $categories = Category::all();
         $post = Post::with('comments')->withCount('comments')->findOrFail($id);
-        return view('pages.user.posts.show', compact('post'));
+        return view('pages.admin.posts.show', compact('post', 'catCount', 'posCount', 'comCount', 'categories'));
     }
 
     public function edit(string $id)

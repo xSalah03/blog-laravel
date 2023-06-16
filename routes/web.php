@@ -22,15 +22,17 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     return view('welcome');
-});
+})->name('home');
 
-Route::get('/dashboard', function () {
-    $catCount = Category::count();
-    $posCount = Post::count();
-    $comCount = Comment::count();
-    // $catCount = Category::count();
-    return view('dashboard', compact('catCount', 'posCount', 'comCount'));
-})->middleware(['auth', 'verified'])->name('dashboard');
+
+Route::middleware('admin')->group(function () {
+    Route::get('/dashboard', function () {
+        $catCount = Category::count();
+        $posCount = Post::count();
+        $comCount = Comment::count();
+        return view('dashboard', compact('catCount', 'posCount', 'comCount'));
+    })->middleware(['auth', 'verified'])->name('dashboard');
+});
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');

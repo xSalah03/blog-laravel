@@ -100,7 +100,7 @@ class CommentController extends Controller
             flashy()->success('Comment deleted successfully');
             return redirect()->route('comment.index');
         }
-        return redirect()->route('comment.index');
+        return redirect()->back();
     }
 
     public function userStore(Request $request, $postId)
@@ -114,7 +114,7 @@ class CommentController extends Controller
         $comment->post_id = $postId;
         $comment->save();
         flashy()->success('Comment created successfully');
-        return redirect()->route('post.user.index');
+        return redirect()->back();
     }
 
     /**
