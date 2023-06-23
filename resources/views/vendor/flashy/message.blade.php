@@ -6,7 +6,7 @@
     font-weight: 400;
     position: fixed;
     bottom: 20px;
-    right: 20px;
+    left: 20px;
     font-size: 16px;
     color: #fff;
 }

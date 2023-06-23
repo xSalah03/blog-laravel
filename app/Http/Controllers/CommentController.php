@@ -83,7 +83,7 @@ class CommentController extends Controller
         $comment = Comment::findOrFail($id);
         $comment->content = $validatedData['content'];
         $comment->post_id = $validatedData['post_id'];
-        
+
         $comment->save();
         flashy()->success('Comment updated successfully');
         return redirect()->route('comment.index');
@@ -105,15 +105,20 @@ class CommentController extends Controller
 
     public function userStore(Request $request, $postId)
     {
-        $validatedData = $request->validate([
-            'content' => 'required|max:255',
-        ]);
-        $comment = new Comment();
-        $comment->content = $validatedData['content'];
-        $comment->user_id = Auth::user()->id;
-        $comment->post_id = $postId;
-        $comment->save();
-        flashy()->success('Comment created successfully');
+        if (auth()->check()) {
+            $validatedData = $request->validate([
+                'content' => 'required|max:255',
+            ]);
+            $comment = new Comment();
+            $comment->content = $validatedData['content'];
+            $comment->user_id = Auth::user()->id;
+            $comment->post_id = $postId;
+            $comment->save();
+            flashy()->success('Comment created successfully');
+            return redirect()->back();
+        }
+
+        flashy()->error('You must be authenticated to write a comment!');
         return redirect()->back();
     }
 

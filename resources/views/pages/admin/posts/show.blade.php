@@ -4,9 +4,7 @@
     <div class="p-5">
         <div
             class="mx-auto max-w-sm bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
-            <a href="#">
-                <img class="rounded-t-lg" src="{{ asset($post->cover) }}" alt="" />
-            </a>
+            <img class="rounded-t-lg" src="{{ asset($post->cover) }}" alt="" />
             <div class="p-5">
                 <div class="relative flex justify-between">
                     <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
@@ -36,7 +34,6 @@
                                     class="block px-4 py-2 text-sm text-red-600 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">Delete</a>
                             </li>
                         </ul>
-
                     </div>
                 </div>
                 <p class="mb-3 font-normal text-gray-700 dark:text-gray-400">

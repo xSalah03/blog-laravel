@@ -19,11 +19,13 @@
                             </x-nav-link>
                         </div>
                     @endif
-                    <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
-                        <x-nav-link :href="route('post.user.index')" :active="request()->routeIs('post')">
-                            {{ __('Posts') }}
-                        </x-nav-link>
-                    </div>
+                    @auth
+                        <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
+                            <x-nav-link :href="route('follow.index')" :active="request()->routeIs('request')">
+                                {{ __('Request') }}
+                            </x-nav-link>
+                        </div>
+                    @endauth
                 </div>
 
                 <!-- Settings Dropdown -->
@@ -118,21 +120,31 @@
     @endauth
     @guest
         @if (Route::has('login'))
-            <div class="sm:fixed sm:top-0 sm:right-0 p-6 text-right z-10">
-                @auth
-                    <a href="{{ url('/dashboard') }}"
-                        class="font-semibold text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white focus:outline focus:outline-2 focus:rounded-sm focus:outline-red-500">Dashboard</a>
-                @else
-                    <a href="{{ route('login') }}"
-                        class="font-semibold text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white focus:outline focus:outline-2 focus:rounded-sm focus:outline-red-500">Log
-                        in</a>
+            <div class="flex justify-between items-center sm:top-0 sm:right-0 p-2 text-right z-10">
+                <div class="flex justify-between items-center mx-4 w-full">
+                    <!-- Logo -->
+                    <a href="{{ route('home') }}" class="mr-4">
+                        <img src="{{ asset('laravel-logo.png') }}" alt="Logo" class="h-12 w-auto">
+                    </a>
+                    @auth
+                        <a href="{{ url('/dashboard') }}"
+                            class="font-semibold text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white focus:outline focus:outline-2 focus:rounded-sm focus:outline-red-500">Dashboard</a>
+                    @else
+                        <div class="flex items-center">
 
-                    @if (Route::has('register'))
-                        <a href="{{ route('register') }}"
-                            class="ml-4 font-semibold text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white focus:outline focus:outline-2 focus:rounded-sm focus:outline-red-500">Register</a>
-                    @endif
-                @endauth
+                            <a href="{{ route('login') }}"
+                                class="font-semibold text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white focus:outline focus:outline-2 focus:rounded-sm focus:outline-red-500">Log
+                                in</a>
+
+                            @if (Route::has('register'))
+                                <a href="{{ route('register') }}"
+                                    class="ml-4 font-semibold text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white focus:outline focus:outline-2 focus:rounded-sm focus:outline-red-500">Register</a>
+                            @endif
+                        </div>
+                    @endauth
+                </div>
             </div>
         @endif
+
     @endguest
 </nav>

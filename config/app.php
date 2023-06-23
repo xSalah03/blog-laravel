@@ -162,6 +162,7 @@ return [
         /*
          * Application Service Providers...
          */
+        Illuminate\Auth\AuthServiceProvider::class,
         MercurySeries\Flashy\FlashyServiceProvider::class,
         App\Providers\AppServiceProvider::class,
         App\Providers\AuthServiceProvider::class,
@@ -183,6 +184,7 @@ return [
 
     'aliases' => Facade::defaultAliases()->merge([
         // 'Example' => App\Facades\Example::class,
+        'Auth' => Illuminate\Support\Facades\Auth::class,
         'Flashy' => MercurySeries\Flashy\Flashy::class,
     ])->toArray(),
 

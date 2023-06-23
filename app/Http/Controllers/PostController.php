@@ -5,10 +5,9 @@ namespace App\Http\Controllers;
 use App\Models\Category;
 use App\Models\Post;
 use App\Models\Comment;
-use App\Models\User;
-use DragonCode\Contracts\Cashier\Auth\Auth;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Auth;
 
 class PostController extends Controller
 {
@@ -48,7 +47,7 @@ class PostController extends Controller
         $post->category_id = $validatedData['category_id'];
         $post->save();
         flashy()->success('Post created successfully');
-        return redirect()->route('post.index');
+        return redirect()->back();
     }
 
     public function show(string $id)
@@ -94,7 +93,7 @@ class PostController extends Controller
         }
         $post->save();
         flashy()->success('Post updated successfully');
-        return redirect()->route('post.index');
+        return redirect()->back();
     }
 
     public function destroy(string $id)
@@ -103,15 +102,29 @@ class PostController extends Controller
         if ($post) {
             $post->delete();
             flashy()->success('Post deleted successfully');
-            return redirect()->route('post.index');
+            return redirect()->back();
         }
-        return redirect()->route('post.index');
+        return redirect()->back();
     }
 
-    public function userIndex(Request $request)
+    public function userIndexPost(Request $request)
     {
+        $categories = Category::all();
         $posts = Post::withCount('comments')->get();
-        return view('pages.user.posts.index', compact('posts'));
+
+
+        return view('pages.user.posts.index', compact('posts', 'categories'));
+    }
+
+
+    public function userUpdatePost()
+    {
+        if (auth()->check()) {
+            $categories = Category::all();
+            return view('pages.user.posts.create', compact('categories'));
+        }
+        flashy()->error('You must be authenticated to create a post!');
+        return redirect()->back();
     }
 
     public function userShow(string $id)

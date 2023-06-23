@@ -2,8 +2,10 @@
 
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\CommentController;
+use App\Http\Controllers\FollowController;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\UserController;
 use App\Models\Category;
 use App\Models\Comment;
 use App\Models\Post;
@@ -39,13 +41,22 @@ Route::middleware('auth')->group(function () {
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
     Route::patch('/profile/{id}', [ProfileController::class, 'updateAvatar'])->name('profile.avatar.update');
+    Route::get('/users/{id}', [UserController::class, 'userShow'])->name('user.user.show');
+    Route::post('/follow', [FollowController::class, 'store'])->name('follow.store');
+    Route::get('/request', [FollowController::class, 'index'])->name('follow.index');
+    Route::post('/follow/confirm/{id}', [FollowController::class, 'confirm'])->name('follow.confirm');
+    Route::post('/follow/decline/{id}', [FollowController::class, 'decline'])->name('follow.decline');
 });
 
-Route::resource('/dashboard/category', CategoryController::class);
-Route::resource('/dashboard/post', PostController::class);
-Route::resource('/dashboard/comment', CommentController::class);
+Route::middleware('admin')->group(function () {
+    Route::resource('/dashboard/category', CategoryController::class);
+    Route::resource('/dashboard/post', PostController::class);
+    Route::resource('/dashboard/comment', CommentController::class);
+    Route::resource('/dashboard/user', UserController::class);
+});
 
-Route::get('/posts', [PostController::class, 'userIndex'])->name('post.user.index');
+Route::get('/posts', [PostController::class, 'userIndexPost'])->name('post.user.index');
+Route::get('/posts/update}', [PostController::class, 'userCreatePost'])->name('post.user.create');
 Route::get('/posts/{postId}', [PostController::class, 'userShow'])->name('post.user.show');
 
 Route::get('/posts/{postId}/comments/', [CommentController::class, 'userCreate'])->name('comment.user.create');
