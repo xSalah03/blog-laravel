@@ -112,7 +112,6 @@ class PostController extends Controller
         $categories = Category::all();
         $posts = Post::withCount('comments')->get();
 
-
         return view('pages.user.posts.index', compact('posts', 'categories'));
     }
 

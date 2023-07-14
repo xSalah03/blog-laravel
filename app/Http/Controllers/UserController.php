@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Follower;
 use App\Models\User;
 use Illuminate\Http\Request;
 
@@ -66,8 +67,11 @@ class UserController extends Controller
     public function userShow(string $id)
     {
         $user = User::withCount('posts')->findOrFail($id);
-        $followersCount = $user->followers()->where('status', 'confirmed')->count();
         $followingCount = $user->following()->where('status', 'confirmed')->count();
-        return view('pages.user.users.show', compact('user', 'followersCount', 'followingCount'));
+        $followersCount = $user->followers()->where('status', 'confirmed')->count();
+        $followers = auth()->user()->following;
+        $isFollowing = $followers->contains('follower_id', $id);
+        $follower = $followers->where('follower_id', $id)->first();
+        return view('pages.user.users.show', compact('user', 'followersCount', 'followingCount', 'isFollowing', 'follower'));
     }
 }

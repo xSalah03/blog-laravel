@@ -12,19 +12,16 @@ class FollowController extends Controller
     public function index()
     {
         $userId = auth()->user()->id;
-        $followRequests = Follower::where('user_id', $userId)
+        $followRequests = Follower::where('follower_id', $userId)
             ->where('status', 'pending')
-            ->with('follower')
             ->get();
-
         return view('pages.user.users.index', compact('followRequests'));
     }
 
-
     public function store(Request $request)
     {
-        $followerId = auth()->user()->id;
-        $userId = $request->input('user_id');
+        $followerId = $request->input('follower_id');
+        $userId = auth()->user()->id;
         Follower::create([
             'follower_id' => $followerId,
             'user_id' => $userId,
